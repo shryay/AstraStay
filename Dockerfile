@@ -1,5 +1,5 @@
-# Use Eclipse Temurin as the base image for Java 23
-FROM eclipse-temurin:23-jdk-jammy
+# Use Amazon Corretto as the base image for Java 23
+FROM amazoncorretto:23
 
 # Set the working directory
 WORKDIR /app
