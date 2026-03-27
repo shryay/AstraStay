@@ -1,5 +1,5 @@
-# Use OpenJDK as the base image
-FROM openjdk:23-jdk-slim
+# Use Eclipse Temurin as the base image for Java 23
+FROM eclipse-temurin:23-jdk-jammy
 
 # Set the working directory
 WORKDIR /app
