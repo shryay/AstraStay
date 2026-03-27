@@ -1,81 +1,113 @@
-# AstraStay — Hotel Booking Backend API
+# AstraStay - Premium Property & Hotel Management API
 
-A full-featured hotel booking backend built with **Spring Boot 3**, **PostgreSQL**, **JWT Auth**, and **Stripe Payments**.
+Welcome to the backend repository of **AstraStay** (formerly AirBnb Backend), developed and maintained by **Shreya Upadhyay**.
 
-Built by **Shreya Upadhyay**
+This application provides a highly scalable, robust, and secure backend REST API for a complete hotel management system. It bridges the gap between guests looking for premium stays and administrators managing complex property inventories, bookings, and real-time availability.
 
-## 🛠 Tech Stack
-- **Backend**: Spring Boot 3.4, Java 23
-- **Database**: PostgreSQL (Neon)
-- **Authentication**: JWT (JSON Web Tokens)
-- **Payments**: Stripe API
-- **Documentation**: Swagger/OpenAPI (SpringDoc)
-- **Deployment**: Render (Docker)
+![AstraStay Cover Image](https://github.com/user-attachments/assets/585136d9-05b5-4832-ad37-0a47d4678433)
 
-## 🔗 Live API Docs
-👉 [Swagger UI](https://astrastay.onrender.com/api/v1/swagger-ui/index.html)
+## 🚀 Live Interactive API
+The API is successfully deployed and live! You can interactively test the endpoints, explore the request models, and read descriptions via the Swagger UI:
+👉 **[AstraStay Interactive API Docs](https://astrastay.onrender.com/api/v1/swagger-ui/index.html)**
 
-## ✨ Features
+---
+
+## 🏗️ System Architecture & Layered Design
+
+AstraStay is engineered using best-in-class architectural principles to ensure maintainability, testability, and enterprise-grade scalability.
+
+### N-Tier (Multi-Layered) Architecture
+The application strictly enforces separation of concerns through a layered architecture:
+
+1. **Presentation Layer (Controllers)**: Handles HTTP requests, enforces payload validation, and manages API routing. It never leaks database models to the client, securely returning structured Data Transfer Objects (DTOs) instead.
+2. **Business Logic Layer (Services)**: The core brain of AstraStay. All complex operations—such as preventing double-bookings, orchestrating Stripe webhooks, and locking inventory logic—live here, completely decoupled from HTTP concerns.
+3. **Data Access Layer (Repositories)**: Utilizes Spring Data JPA (Hibernate) to interface seamlessly with the PostgreSQL database. It abstracts complex SQL queries and handles safe transaction management.
+4. **Security Layer**: Intercepts requests to validate JWTs (JSON Web Tokens) and enforces strict Role-Based Access Control (RBAC) to ensure guests cannot access highly sensitive admin or inventory endpoints.
+
+---
+
+## 🧩 Key Design Patterns Implemented
+
+- **DTO (Data Transfer Object) Pattern**: Prevents over-posting vulnerabilities and provides a clean contract for API consumers by isolating internal domain entities.
+- **Dependency Injection (DI)**: Managed by the Spring IoC (Inversion of Control) container, ensuring components are loosely coupled and easily mockable for unit testing.
+- **Facade Pattern**: Used to simplify complex booking flows. A unified controller talks to a single facade that orchestrates the User, Inventory, Payment, and Notification services behind the scenes.
+- **Builder Pattern**: Extensively used to cleanly construct complex entities (like Booking records and custom API responses) in a thread-safe and immutable way.
+- **Strategy Pattern**: The payment processing module is designed using strategy interfaces, preparing AstraStay to easily support PayPal or Razorpay alongside the existing Stripe integration.
+
+---
+
+## 🛠️ Technology Stack
+- **Core Framework:** Java 23, Spring Boot 3.x
+- **Database:** PostgreSQL (Hosted on Neon.tech)
+- **Authentication:** Spring Security with JWT (JSON Web Tokens)
+- **Payment Gateway:** Stripe API integration via secured Webhooks
+- **ORM / Persistence:** Hibernate & Spring Data JPA
+- **API Documentation:** OpenAPI 3.0 (Swagger UI)
+- **Deployment & DevOps:** Docker, AWS Corretto, Render Cloud
+
+---
+
+## 📖 Complete API Reference
+
+Below is a detailed breakdown of the features and routing built into AstraStay:
 
 ### User Authentication
-- `POST /auth/signup` — User signup
-- `POST /auth/login` — User login
-- `POST /auth/refresh` — Refresh access token
-
-### Hotel Management (Admin)
-- `POST /admin/hotels` — Create a hotel
-- `GET /admin/hotels` — Get all admin hotels
-- `PUT /admin/hotels/{hotelId}` — Update hotel details
-- `DELETE /admin/hotels/{hotelId}` — Delete a hotel
-- `PATCH /admin/hotels/{hotelId}/activate` — Activate a hotel
-
-### Room Management (Admin)
-- `POST /admin/hotels/{hotelId}/rooms` — Create a room
-- `GET /admin/hotels/{hotelId}/rooms` — Get all rooms
-- `PUT /admin/hotels/{hotelId}/rooms/{roomId}` — Update a room
-- `DELETE /admin/hotels/{hotelId}/rooms/{roomId}` — Delete a room
-
-### Inventory Management (Admin)
-- `GET /admin/inventory/rooms/{roomId}` — Get room inventory
-- `PATCH /admin/inventory/rooms/{roomId}` — Update inventory
-
-### Hotel Browsing
-- `GET /hotels/search` — Search for hotels
-- `GET /hotels/{hotelId}/info` — Get hotel details
-
-### Booking Flow
-- `POST /bookings/init` — Create a booking
-- `POST /bookings/{bookingId}/addGuests` — Add guests
-- `POST /bookings/{bookingId}/payments` — Initiate payment
-- `POST /bookings/{bookingId}/cancel` — Cancel booking
-- `GET /bookings/{bookingId}/status` — Check status
+- **POST** `/auth/signup` - Register a new user
+- **POST** `/auth/login` - Authenticate and retrieve JWT
+- **POST** `/auth/refresh` - Refresh an expired access token
 
 ### User Profile & Guests
-- `GET /users/profile` — View profile
-- `PATCH /users/profile` — Update profile
-- `GET /users/myBookings` — View bookings
-- `POST /users/guests` — Add a guest
-- `PUT /users/guests/{guestId}` — Update guest
-- `DELETE /users/guests/{guestId}` — Remove guest
+- **GET** `/users/profile` - Retrieve authenticated user profile
+- **PATCH** `/users/profile` - Update profile information
+- **GET** `/users/myBookings` - Get historical and active bookings
+- **POST** `/users/guests` - Add an accompanying guest
+- **GET** `/users/guests` - Retrieve your registered guests
+- **PUT** `/users/guests/{guestId}` - Update guest details
+- **DELETE** `/users/guests/{guestId}` - Remove a guest
 
-### Webhook
-- `POST /webhook/payment` — Stripe payment webhook
+### Hotel Browsing & Search
+- **GET** `/hotels/search` - Advanced search for available hotels
+- **GET** `/hotels/{hotelId}/info` - Get public hotel details
 
-## 🚀 Run Locally
+### Booking Flow
+- **POST** `/bookings/init` - Initialize a new booking hold
+- **POST** `/bookings/{bookingId}/addGuests` - Attach guests to the booking
+- **POST** `/bookings/{bookingId}/payments` - Initiate Stripe checkout
+- **POST** `/bookings/{bookingId}/cancel` - Cancel a booking
+- **GET** `/bookings/{bookingId}/status` - Check real-time payment/booking status
 
-```bash
-# Set environment variables
-export DB_URL=jdbc:postgresql://localhost:5432/astrastay
-export DB_USERNAME=postgres
-export DB_PASSWORD=your_password
-export JWT_SECRET=your_jwt_secret_key
-export STRIPE_SECRET_KEY=sk_test_xxx
-export STRIPE_WEBHOOK_SECRET=whsec_xxx
-export FRONTEND_URL=http://localhost:3000
+### Payment Webhooks
+- **POST** `/webhook/payment` - Secure endpoint for Stripe to capture and finalize payments
 
-# Run
-./mvnw spring-boot:run
-```
+### Administrator Configuration (Role: ADMIN)
+#### Hotel Management
+- **POST** `/admin/hotels` - Onboard a new hotel
+- **GET** `/admin/hotels` - Retrieve all hotels
+- **GET** `/admin/hotels/{hotelId}` - Get total admin details of a hotel
+- **PUT** `/admin/hotels/{hotelId}` - Update hotel details
+- **PATCH** `/admin/hotels/{hotelId}/activate` - Toggle hotel activation status
+- **DELETE** `/admin/hotels/{hotelId}` - Remove a hotel
+- **GET** `/admin/hotels/{hotelId}/reports` - Generate analytical booking reports
+- **GET** `/admin/hotels/{hotelId}/bookings` - List all bookings for a property
 
-## 📄 License
-This project is for educational and portfolio purposes.
+#### Room & Inventory Management
+- **POST** `/admin/hotels/{hotelId}/rooms` - Create a room category
+- **GET** `/admin/hotels/{hotelId}/rooms` - Get all rooms
+- **GET** `/admin/hotels/{hotelId}/rooms/{roomId}` - Get deep room details
+- **PUT** `/admin/hotels/{hotelId}/rooms/{roomId}` - Update a room configuration
+- **DELETE** `/admin/hotels/{hotelId}/rooms/{roomId}` - Remove a room
+- **GET** `/admin/inventory/rooms/{roomId}` - Retrieve exact date-based inventory
+- **PATCH** `/admin/inventory/rooms/{roomId}` - Adjust real-time block/availability
+- **PUT** `/admin/hotels/{hotelId}/rooms/{roomId}` - Advanced room update
+
+---
+
+## 🗄️ Database Schema
+
+The relational database is highly normalized to guarantee data integrity across users, bookings, payments, and dynamic hotel inventory.
+
+![AstraStay Entity-Relationship Schema](https://github.com/user-attachments/assets/bc209296-e0f2-48f9-a7ae-65d084e4cb6c)
+
+---
+
+*Engineered with clean code practices and built for modern scalability.*
