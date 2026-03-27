@@ -4,7 +4,7 @@ Welcome to the backend repository of **AstraStay** (formerly AirBnb Backend), de
 
 This application provides a highly scalable, robust, and secure backend REST API for a complete hotel management system. It bridges the gap between guests looking for premium stays and administrators managing complex property inventories, bookings, and real-time availability.
 
-![AstraStay Cover Image](https://github.com/user-attachments/assets/585136d9-05b5-4832-ad37-0a47d4678433)
+![AstraStay Swagger UI Documentation](PUT_YOUR_GITHUB_IMAGE_URL_HERE)
 
 ## 🚀 Live Interactive API
 The API is successfully deployed and live! You can interactively test the endpoints, explore the request models, and read descriptions via the Swagger UI:
