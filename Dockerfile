@@ -25,5 +25,5 @@ RUN cp target/*.jar app.jar
 # Expose the application port
 EXPOSE 8080
 
-# Run the application
-CMD ["java", "-jar", "app.jar"]
+# Run the application with memory limits and fast-startup tuning for Render Free Tier (512MB RAM)
+CMD ["java", "-Xmx300m", "-Xss512k", "-XX:TieredStopAtLevel=1", "-jar", "app.jar"]
