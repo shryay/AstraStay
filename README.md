@@ -1,67 +1,81 @@
-# Airbnb Backend API
+# AstraStay — Hotel Booking Backend API
 
-This application provides backend APIs for a hotel management system, including inventory management, booking flow, user authentication, and hotel browsing.
+A full-featured hotel booking backend built with **Spring Boot 3**, **PostgreSQL**, **JWT Auth**, and **Stripe Payments**.
 
-![Image](https://github.com/user-attachments/assets/585136d9-05b5-4832-ad37-0a47d4678433)
+Built by **Shreya Upadhyay**
 
-## Features
+## 🛠 Tech Stack
+- **Backend**: Spring Boot 3.4, Java 23
+- **Database**: PostgreSQL (Neon)
+- **Authentication**: JWT (JSON Web Tokens)
+- **Payments**: Stripe API
+- **Documentation**: Swagger/OpenAPI (SpringDoc)
+- **Deployment**: Render (Docker)
 
-### Admin Inventory
-- **GET** `/admin/inventory/rooms/{roomId}` - Retrieve inventory of a room
-- **PATCH** `/admin/inventory/rooms/{roomId}` - Update inventory for a room
-- **PUT** `/admin/hotels/{hotelId}/rooms/{roomId}` - Update a room
+## 🔗 Live API Docs
+👉 [Swagger UI](https://astrastay.onrender.com/api/v1/swagger-ui/index.html)
 
-### Booking Flow
-- **GET** `/bookings/{bookingId}/status` - Check booking status
-- **GET** `/admin/hotels/{hotelId}/reports` - Generate hotel booking report
-- **GET** `/admin/hotels/{hotelId}/bookings` - Get all bookings
-- **POST** `/bookings/{bookingId}/payments` - Initiate payment
-- **POST** `/bookings/{bookingId}/cancel` - Cancel a booking
-- **POST** `/bookings/{bookingId}/addGuests` - Add guests to a booking
-- **POST** `/bookings/init` - Initialize a new booking
-
-### Booking Guests
-- **DELETE** `/users/guests/{guestId}` - Remove a guest
-- **GET** `/users/guests` - Get my guests
-- **POST** `/users/guests` - Add a guest
-- **PUT** `/users/guests/{guestId}` - Update a guest
-
-### Hotel Browse
-- **GET** `/hotels/{hotelId}/info` - Get hotel details
-- **GET** `/hotels/search` - Search for hotels
-
-### Hotel Management
-- **DELETE** `/admin/hotels/{hotelId}` - Delete a hotel
-- **GET** `/admin/hotels/{hotelId}` - Get hotel by ID
-- **GET** `/admin/hotels` - Get all admin hotels
-- **PATCH** `/admin/hotels/{hotelId}/activate` - Activate a hotel
-- **POST** `/admin/hotels` - Create a hotel
-- **PUT** `/admin/hotels/{hotelId}` - Update hotel details
-
-### Room Admin Management
-- **DELETE** `/admin/hotels/{hotelId}/rooms/{roomId}` - Delete a room
-- **GET** `/admin/hotels/{hotelId}/rooms/{roomId}` - Get room details
-- **GET** `/admin/hotels/{hotelId}/rooms` - Retrieve all rooms
-- **POST** `/admin/hotels/{hotelId}/rooms` - Create a room
-- **PUT** `/admin/hotels/{hotelId}/rooms/{roomId}` - Update a room
+## ✨ Features
 
 ### User Authentication
-- **POST** `/auth/signup` - User signup
-- **POST** `/auth/refresh` - Refresh access token
-- **POST** `/auth/login` - User login
+- `POST /auth/signup` — User signup
+- `POST /auth/login` — User login
+- `POST /auth/refresh` — Refresh access token
 
-### User Profile
-- **DELETE** `/users/guests/{guestId}` - Remove a guest
-- **GET** `/users/guests` - Get my guests
-- **GET** `/users/profile` - Get my profile
-- **GET** `/users/myBookings` - Get my bookings
-- **PATCH** `/users/profile` - Update my profile
-- **POST** `/users/guests` - Add a guest
-- **PUT** `/users/guests/{guestId}` - Update a guest
+### Hotel Management (Admin)
+- `POST /admin/hotels` — Create a hotel
+- `GET /admin/hotels` — Get all admin hotels
+- `PUT /admin/hotels/{hotelId}` — Update hotel details
+- `DELETE /admin/hotels/{hotelId}` — Delete a hotel
+- `PATCH /admin/hotels/{hotelId}/activate` — Activate a hotel
+
+### Room Management (Admin)
+- `POST /admin/hotels/{hotelId}/rooms` — Create a room
+- `GET /admin/hotels/{hotelId}/rooms` — Get all rooms
+- `PUT /admin/hotels/{hotelId}/rooms/{roomId}` — Update a room
+- `DELETE /admin/hotels/{hotelId}/rooms/{roomId}` — Delete a room
+
+### Inventory Management (Admin)
+- `GET /admin/inventory/rooms/{roomId}` — Get room inventory
+- `PATCH /admin/inventory/rooms/{roomId}` — Update inventory
+
+### Hotel Browsing
+- `GET /hotels/search` — Search for hotels
+- `GET /hotels/{hotelId}/info` — Get hotel details
+
+### Booking Flow
+- `POST /bookings/init` — Create a booking
+- `POST /bookings/{bookingId}/addGuests` — Add guests
+- `POST /bookings/{bookingId}/payments` — Initiate payment
+- `POST /bookings/{bookingId}/cancel` — Cancel booking
+- `GET /bookings/{bookingId}/status` — Check status
+
+### User Profile & Guests
+- `GET /users/profile` — View profile
+- `PATCH /users/profile` — Update profile
+- `GET /users/myBookings` — View bookings
+- `POST /users/guests` — Add a guest
+- `PUT /users/guests/{guestId}` — Update guest
+- `DELETE /users/guests/{guestId}` — Remove guest
 
 ### Webhook
-- **POST** `/webhook/payment` - Capture payments
+- `POST /webhook/payment` — Stripe payment webhook
 
-###Schema
-![Image](https://github.com/user-attachments/assets/bc209296-e0f2-48f9-a7ae-65d084e4cb6c)
+## 🚀 Run Locally
 
+```bash
+# Set environment variables
+export DB_URL=jdbc:postgresql://localhost:5432/astrastay
+export DB_USERNAME=postgres
+export DB_PASSWORD=your_password
+export JWT_SECRET=your_jwt_secret_key
+export STRIPE_SECRET_KEY=sk_test_xxx
+export STRIPE_WEBHOOK_SECRET=whsec_xxx
+export FRONTEND_URL=http://localhost:3000
+
+# Run
+./mvnw spring-boot:run
+```
+
+## 📄 License
+This project is for educational and portfolio purposes.

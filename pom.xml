@@ -8,11 +8,11 @@
 		<version>3.4.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.aman.AirBnb</groupId>
-	<artifactId>AirBnb</artifactId>
+	<groupId>com.shreya.AstraStay</groupId>
+	<artifactId>AstraStay</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>AirBnb</name>
-	<description>Airbnb Project</description>
+	<name>AstraStay</name>
+	<description>AstraStay - Hotel Booking Backend API</description>
 	<url/>
 	<licenses>
 		<license/>

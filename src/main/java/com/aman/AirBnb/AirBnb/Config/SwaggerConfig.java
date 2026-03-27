@@ -15,9 +15,9 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Airbnb API")
+                        .title("AstraStay API")
                         .version("1.0")
-                        .description("API documentation for the Airbnb Backend clone application, Created By Aman Kumar"))
+                        .description("API documentation for AstraStay - A Hotel Booking Backend Application, Built by Shreya Upadhyay"))
                         .addSecurityItem(new SecurityRequirement().addList("BearerAuth"))
                         .components(new Components()
                                 .addSecuritySchemes("BearerAuth",
