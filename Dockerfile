@@ -9,6 +9,9 @@ COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 COPY src/ src/
 
+# Install tar and gzip (needed by mvnw) using whatever package manager Corretto 23 uses
+RUN yum install -y tar gzip || dnf install -y tar gzip || microdnf install -y tar gzip || true
+
 # Fix Windows line endings and give execute permission to the Maven wrapper
 RUN sed -i 's/\r$//' mvnw
 RUN chmod +x mvnw
