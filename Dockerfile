@@ -9,7 +9,8 @@ COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 COPY src/ src/
 
-# Give execute permission to the Maven wrapper
+# Fix Windows line endings and give execute permission to the Maven wrapper
+RUN sed -i 's/\r$//' mvnw
 RUN chmod +x mvnw
 
 # Build the application inside the Docker container
